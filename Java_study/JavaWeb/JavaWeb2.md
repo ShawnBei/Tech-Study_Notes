@@ -1,4 +1,4 @@
-# JavaWeb
+JavaWeb
 
 ## 1. 概述
 
@@ -15,12 +15,7 @@
 >    * JSP
 >    * JDBC
 >
-> 3. JSP 和 Servlet 不同之处：
->    * Servlet 在 Java 代码中通过 HttpServletResponse 对象动态输出 HTML 内容。
->    * JSP 在静态 HTML 内容中嵌入 Java 代码，Java 代码被动态执行后生成 HTML 内容。
->    * jsp 就是在 html 里面写 java 代码，servlet 就是在 java 里面写 html 代码…其实 jsp 经过容器解释之后就是 servlet。
 >
-> ![Screenshot 2019-10-29 at 20.55.33](img/Screenshot 2019-10-29 at 20.55.33.png)
 
 
 
@@ -50,6 +45,14 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 
 
 
+
+
+
+
+
+
+
+
 ## 3. XML & Tomcat
 
 > Tomcat 和 apache 的区别：
@@ -64,6 +67,13 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 ![img](img/Screenshot 2020-02-18 at 16.27.21.png)
 
 注释：classes 文件夹中放我们编写的 java 文件编译出来的 .class 文件，lib 放 jar 包，web.xml 是服务器的配置文件。
+
+**如何搭建一个 Tomcat 服务器** （使用 Eclipse 搭建一个简单的 WEB 工程）
+
+````
+http://loclhost:8080/HelloWeb/index.html
+网址 		/ 项目名	 / 	子网页
+````
 
 
 
@@ -89,70 +99,83 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 
 ## 5. Servlet
 
-1. WEB 资源: 有两种分类： 静态 / 动态。
-   * 静态： HTML / JavaScript / CSS
-   * 动态： JSP (Java Server Pages)
-
-> Servlet 是什么：
+> **Servlet 是什么**：
 >
-> * Servlet 是一个 Java 程序，运行在我们的 web 服务器（Tomcat 服务器）上，用于接收和响应 客户端的 http 请求。 
-> * 更多的是配合动态资源来做。 当然静态资源也需要使用到 servlet，只不过是 Tomcat 里面已经定义好了一个 DefaultServlet。
+> * Servlet 是一个 Java 程序（组件），运行在我们的 web 服务器上（服务器负责Sevelet和客户的通信以及调用Servlet的方法），Servlet和客户的通信采用“请求/响应”的模式。 
 
-2. 如何搭建一个 Tomcat 服务器 （使用 Eclipse 搭建一个简单的 WEB 工程）
+**Servlet 能做的事**：
 
-   ````
-   http://loclhost:8080/HelloWeb/index.html
-   网址 		/ 项目名	 / 	子网页
-   ````
+- 创建并返回基于客户请求的动态HTML页面。
+- 创建可嵌入到现有HTML页面中的部分HTML页面。
+- 与其他服务器资源进行通信（比如数据库或者基于Java的应用程序）。
 
-3. 在 Web 工程上创建一个类，实现 Servlet 接口。
+![servelt-c/s](img/servelt-c-s.png)
 
-   * 配置 Servlet, 告诉服务器我们的服务器有这么些个 Servlet。
-   * 配置文件： web.xml
+**注意**：Servelt容器掌控着 Servlet 的生命周期。
 
-   ````xml
-   <servlet>
-   	<servlet-name>HelloServlet02</servlet-name>
-   	<servlet-class>com.itheima.servlet.HelloServlet</servlet-class>
-   </servlet>
-   
-   <servlet-mapping>
-   	<servlet-name>HelloServlet02</servlet-name>
-   	<url-pattern>/a</url-pattern>
-   </servlet-mapping>
-   ````
 
-   * http://loclhost:8080/HelloWeb/a
 
-4. Servlet 通用写法
+### 如何创建一个 Servlet （helloworld）
 
-   * Servlet --> GenericServlet --> HttpServlet(用于处理http	请求)
-   * 一般继承 HttpServlet, 并重写 doPost 和 doGet 方法。
+1. 在 Web 工程上创建一个类，实现 Servlet 接口。
 
-5. Servlet 生命周期方法（从初始化到销毁）
+2. 在 web.xml 中配置和映射这个 Servlet（因为希望可以通过浏览器来调用这个 java 类，所以需要映射）。
 
-   * **init 方法**: 创建该 Servlet 实例时调用，一个 servlet 只会初始化一次。
-   * **service 方法**：重要客户端来了一个请求，就执行该方法。一个请求对应一个 service 方法。
-   * **destroy 方法**：servlet 被销毁时执行。
-     - 该 servlet 从 Tomcat 中移除
-     - 正常关闭 Tomcat 服务器
+````xml
+<servlet>
+  <!-- Servlet 注册的名字-->
+	<servlet-name>HelloServlet</servlet-name>
+  <!-- Servlet 的全类名-->
+	<servlet-class>com.ning.bei.HelloServlet</servlet-class>
+</servlet>
 
-6. 让 init 方法提前执行（在访问该 servlet 之前创建实例）
+<servlet-mapping>
+  <!-- 需要和某一个Servlet节点的servlet-name子节点的文本节点一致-->
+	<servlet-name>HelloServlet</servlet-name>
+  <!-- 映射具体的访问路径：/ 代表当前的 web 应用的根目录-->
+	<url-pattern>/hello</url-pattern>
+</servlet-mapping>
+````
 
-   * ``<load-on-startup>``中的数字越小，启动时机越早。
+3. **http://loclhost:8080/HelloWeb/**hello（加粗为根目录，通过url映射找到全类名，然后找到对应的java文件）
 
-   ````
-   <servlet>
-     	<servlet-name>HelloServlet04</servlet-name>
-     	<servlet-class>com.itheima.servlet.HelloServlet04</servlet-class>
-     	<load-on-startup>2</load-on-startup>
-   </servlet>
-   ````
 
-7. ServletConfig
 
-   * 在使用别人开发的 servlet 时，需要自己配置 web.xml（注册该 servlet），并写入初始化时的参数。
-   * 在开发 servlet 时，使用 ServletConfig 来获取用户写入的初始化参数。
+### Servlet 生命周期方法
+
+* **init 方法**: 创建该 Servlet 实例时调用，一个 servlet 只会初始化一次。
+* **service 方法**：重要客户端来了一个请求，就执行该方法。一个请求对应一个 service 方法。
+* **destroy 方法**：servlet 被销毁时执行。
+  - 该 servlet 从 Tomcat 中移除
+  - 正常关闭 Tomcat 服务器
+
+
+
+Servlet 通用写法
+
+* Servlet --> GenericServlet --> HttpServlet(用于处理http	请求)
+* 一般继承 HttpServlet, 并重写 doPost 和 doGet 方法。
+
+
+
+让 init 方法提前执行（在访问该 servlet 之前创建实例）
+
+* ``<load-on-startup>``中的数字越小，启动时机越早。
+
+````
+<servlet>
+  	<servlet-name>HelloServlet04</servlet-name>
+  	<servlet-class>com.itheima.servlet.HelloServlet04</servlet-class>
+  	<load-on-startup>2</load-on-startup>
+</servlet>
+````
+
+
+
+ServletConfig
+
+* 在使用别人开发的 servlet 时，需要自己配置 web.xml（注册该 servlet），并写入初始化时的参数。
+* 在开发 servlet 时，使用 ServletConfig 来获取用户写入的初始化参数。
 
 
 ### 5.1 HttpServletRequest 
@@ -188,3 +211,8 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 
 
 
+JSP 和 Servlet 不同之处：
+
+* Servlet 在 Java 代码中通过 HttpServletResponse 对象动态输出 HTML 内容。
+* JSP 在静态 HTML 内容中嵌入 Java 代码，Java 代码被动态执行后生成 HTML 内容。
+* jsp 就是在 html 里面写 java 代码，servlet 就是在 java 里面写 html 代码…其实 jsp 经过容器解释之后就是 servlet。
