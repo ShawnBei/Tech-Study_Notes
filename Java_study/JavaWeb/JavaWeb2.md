@@ -52,7 +52,7 @@ http://loclhost:8080/HelloWeb/index.html
   - 创建可嵌入到现有HTML页面中的部分HTML页面。
   - 与其他服务器资源进行通信（比如数据库或者基于Java的应用程序）。
 
-![servelt-c/s](img/servelt-c-s.png)
+![servelt-c/s](./img/servelt-c-s.png)
 
 **注意**：Servelt容器掌控着 Servlet 的生命周期。
 
@@ -113,11 +113,11 @@ http://loclhost:8080/HelloWeb/index.html
 
 2. 可以指定servlet被创建的时机，若为负数，则在第一次请求时被创建，若为0或正数，则在web应用被servlet容器加载时被创建，且数值越小越早被创建。
 
-![servlet-response](img/servlet-response.png)
+![servlet-response](./img/servlet-response.png)
 
-![servlet-sign-in](img/servlet-sign-in.png)
+![servlet-sign-in](./img/servlet-sign-in.png)
 
-![servlet-mapping](img/servlet-mapping.png)
+![servlet-mapping](./img/servlet-mapping.png)
 
 ``*.扩展名`` 表示以扩展名结尾的url都调用这个servlet。
 
@@ -182,9 +182,9 @@ ServletConfig 是做为传入参数传入到 init 方法中的。
 
 浏览器到 web 服务器之间的所有通讯都是完全独立分开的请求和响应对。（例如，加载一个页面，包含三张图片，实际上需要四次连接用来传输三张图片和这页文档）
 
-![http-request](img/http-request.png)
+![http-request](./img/http-request.png)
 
-![http-response](img/http-response.png)
+![http-response](./img/http-response.png)
 
 
 ### 使用 GET 方式传递参数：
@@ -323,7 +323,7 @@ JSP 的本质是一个 Servlet（去找 JSP 翻译后的那个 .java 文件）�
   - **application**：代表当前 web 应用，就是 ServletContext 对象。
 
   - config：是当前 JSP 对应的 Servlet 的 ServletConfig 对象（几乎不使用）。若需要访问当前 JSP 配置的初始化参数，需要通过映射的地址才可以。
-    ![jsp-servlet-mapping](img/jsp-servlet-mapping.png)
+    ![jsp-servlet-mapping](./img/jsp-servlet-mapping.png)
 
   - **out**：JspWriter 对象，调用 out.println() 可以直接把字符串打印到浏览器上。
 
@@ -364,7 +364,7 @@ JSP指令是为JSP引擎设计的，并不直接产生任何可见的输出，�
 
 page指令合集：(建议放在页面开头，作用于整个页面)
 
-![jsp-指令](img/jsp-指令.png)
+![jsp-指令](./img/jsp-指令.png)
 
 常见属性：
 
@@ -507,10 +507,10 @@ file 属性的设置值必须使用相对路径，如果使用 / 开头则表示
      请求重定向：/ 代表的是当前 web 站点的根目录。
 
 请求转发代码：
-![request-forward](img/request-forward.png)
+![request-forward](./img/request-forward.png)
 
 请求重定向代码：
-![request-redirect](img/request-redirect.png)
+![request-redirect](./img/request-redirect.png)
 
 注意：当前 web 应用的根目录：http://localhost:xxxx/helloWeb/
      站点的根目录：http://localhost:xxxx/
@@ -521,7 +521,7 @@ file 属性的设置值必须使用相对路径，如果使用 / 开头则表示
 
 ### MVC 概述
 
-![mvc-framework](img/mvc-framework.png)
+![mvc-framework](./img/mvc-framework.png)
 MVC （Model-View-Controller）是一种设计模式，它把应用程序分成三个核心模块：模块、视图、控制器，各自处理自己的任务。
 
 **模型（Model）**：
@@ -548,19 +548,19 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 
 通过网页中的一个超链接打开数据库中的学生列表信息，并返回到浏览器。
 
-![mvc-example1](img/mvc-example1.png)
+![mvc-example1](./img/mvc-example1.png)
 
 
 
 ### 案例二（删除）
 
-![mvc-example2](img/mvc-example2.png)
+![mvc-example2](./img/mvc-example2.png)
 
 
 
 **小结：**
 
-![mvc-conclude1](img/mvc-conclude1.png)
+![mvc-conclude1](./img/mvc-conclude1.png)
 
 **什么时候转发，什么时候重定向？**
 
@@ -572,13 +572,13 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 
 要点分析：
 
-![mvc-example3](img/mvc-example3.png)
+![mvc-example3](./img/mvc-example3.png)
 
 
 
 架构分析
 
-![mvc-example4](img/mvc-example4.png)
+![mvc-example4](./img/mvc-example4.png)
 
 
 
