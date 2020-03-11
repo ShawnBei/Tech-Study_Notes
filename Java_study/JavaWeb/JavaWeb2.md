@@ -17,35 +17,7 @@
 
 
 
-
-## MVC 设计模式
-
-### MVC 概述
-
-![mvc-framework](img/mvc-framework.png)
-MVC （Model-View-Controller）是一种设计模式，它把应用程序分成三个核心模块：模块、视图、控制器，各自处理自己的任务。
-
-**模型（Model）**：
-
-  - 模型是应用程序的主题部分，代表业务数据和业务逻辑。
-  - 一个模型能为多个试图提供数据。
-  - 由于应用于模型的代码只需要写一次就可以被多个视图重用，所以提高了代码的可重用性。
-
-**视图（View）**：
-  - 试图是用户看到并与之交互的界面，作用如下：
-    - 试图想用户显示相关的数据。
-    - 接收用户的输入。
-    - 部进行任何实际的业务处理。
-
- **控制器**：
-  - 控制器接收用户的输入并调用模型和试图去完成用户的需求。
-  - 控制器接收请求并决定调用哪个模型组件去处理请求，然后决定调用哪个视图来显示模型处理返回的数据。
-
-
-
-
-
-## XML & Tomcat
+## Tomcat
 
 > **Tomcat 和 apache 的区别：**
 >
@@ -66,27 +38,6 @@ MVC （Model-View-Controller）是一种设计模式，它把应用程序分成�
 http://loclhost:8080/HelloWeb/index.html
 网址 		/ 项目名	 / 	子网页
 ````
-
-
-
-
-## HTTP
-
-> HTTP (Hypertext Transfer Prototype)
-
-1. 数据格式：
-   * 请求行 / 请求头 / 请求体
-   * 响应行 / 响应头 / 响应体
-
-2. GET 和 POST 请求的区别
-   * POST: 
-     - 以流的形式传递数据，不会再地址栏上显示。
-     - 一般客户端向服务器提交数据都用 POST，不用 GET。
-   * GET: 
-     - 会在地址栏中拼接数据，有安全隐患，一般从服务器获取数据，而且客户端不需要提交数据的时候用。
-     - 拼接的数据有限制，1kb。
-
-
 
 
 
@@ -320,6 +271,17 @@ ServletConfig 是做为传入参数传入到 init 方法中的。
 
 ## JSP（Java Server Page）
 
+> **JSP 和 JavaScript 的区别：**
+>
+> * JSP 技术是 WEB 网站的服务端技术，可以简单理解为 JSP 技术说是用来生成动态网页的。普通的网页是 HTML 的，它是静态的，需要事先用 HTML 语言编写好。那么我们在 HTML 页面中加入一些 Java 代码，用 Java 代码部分动态的内容插入到原来的 HTML 页面中，那么，这个页面就可以成为 JSP 页面。即，JSP = HTML + Java。
+> * JavaScript 是 WEB 的客户端技术，它是一种脚本语言，不用编译，由浏览器解释执行。它也是插入在 HTML 页面当中。JavaScript 脚本的执行都是事件驱动的，当浏览器加载完 HTML 页面之后，用户点击页面中的按钮或者文本框的时候，如果页面中为这些按钮或文本框写好了响应事件 JavaScript 的脚本，那么用户在做响应动作时就会触发这些脚本的执行。JavaScript 脚本可以不与服务端进行通信，就对客户的动作作出响应。
+
+> **JSP 和 Servlet 不同之处：**
+>
+> * Servlet 在 Java 代码中通过 HttpServletResponse 对象动态输出 HTML 内容。
+> * JSP 在静态 HTML 内容中嵌入 Java 代码，Java 代码被动态执行后生成 HTML 内容。
+> * jsp 就是在 html 里面写 java 代码，servlet 就是在 java 里面写 html 代码…其实 jsp 经过容器解释之后就是 servlet。
+
 ### JSP 概述
 
 1. **什么是 JSP ？**
@@ -388,17 +350,122 @@ JSP 声明将 Java 代码封装在 ``<%!`` 和 ``%>``之中，它里面的代码
 ``<%--  JSP注释 --%> <!-- HTML 注释 -->``
 JSP 注释可以阻止 java 代码执行，html注释则不行。
 
+### JSP 指令
 
-> **JSP 和 JavaScript 的区别：**
->
-> * JSP 技术是 WEB 网站的服务端技术，可以简单理解为 JSP 技术说是用来生成动态网页的。普通的网页是 HTML 的，它是静态的，需要事先用 HTML 语言编写好。那么我们在 HTML 页面中加入一些 Java 代码，用 Java 代码部分动态的内容插入到原来的 HTML 页面中，那么，这个页面就可以成为 JSP 页面。即，JSP = HTML + Java。
-> * JavaScript 是 WEB 的客户端技术，它是一种脚本语言，不用编译，由浏览器解释执行。它也是插入在 HTML 页面当中。JavaScript 脚本的执行都是事件驱动的，当浏览器加载完 HTML 页面之后，用户点击页面中的按钮或者文本框的时候，如果页面中为这些按钮或文本框写好了响应事件 JavaScript 的脚本，那么用户在做响应动作时就会触发这些脚本的执行。JavaScript 脚本可以不与服务端进行通信，就对客户的动作作出响应。
+JSP指令是为JSP引擎设计的，并不直接产生任何可见的输出，而只是告诉引擎如何处理 JSP 页面中的其余部分。
 
-> **JSP 和 Servlet 不同之处：**
+``<%@ 指令 属性名="值" %>``
+
+举例：``<%@ page contentType="text/html;charset=gb2312" %>``
+
+**注意**：属性名是大小写敏感的；目前有三种指令：page、include、taglib；一条指令可以定义多个属性。
+
+#### page指令
+
+page指令合集：(建议放在页面开头，作用于整个页面)
+
+![jsp-指令](img/jsp-指令.png)
+
+常见属性：
+
+- **import**：指定当前 JSP 页面对应的 Servlet 需要导入的类，``<%@page import="java.text.DateFormat"%>``；
+
+- **session**：取值为 true 或 false，指定当前页面的 session 隐含变量是否可用，或者说访问当前页面是否一定生成 HttpSession 对象；
+
+- **errorPage**：指若当前页面出现错误的实际响应页面是什么，其中 / 表示的是当前 web 应用的根目录``<%@page errorPage="/error.jsp"%>``；
+
+- 在响应 error.jsp 时，jsp 引擎使用的是*<u>请求转发</u>*的形式。
+
+- **isErrorPage**：指定当前页面是否为错误处理页面，可以说明当前页面是否可以使用 exception 隐含变量，注意：若该属性设置为 true，并可以使用 exception，一般不建议能直接访问该页面。
+
+- 如何让客户不能直接访问某一个页面呢？对于 Tomcat 服务器，WEB-INF 下的文件是不能通过在浏览器地址栏直接输入url来访问的，但是通过请求的转发来访问是可以的。
+
+- 还可以在 web.html 中指定错误页面。
+
+  - ````xml
+    <error-page>
+      <!-- 指定出错的代码：404没有指定的资源，500内部错误 -->
+    	<error-code>500</error-code>
+       <!-- 指定响应页面的位置 -->
+      <location>/WEB-INF/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+       <!-- 指定异常的类型 -->
+    	<exception-type>java.lang.ArithmeticException</exception-type>
+      <location>/WEB-INF/error.jsp</location>
+    </error-page>
+    ````
+
+  - 
+
+- **contentType**：指定当前 JSP 页面的响应类型，实际调用的是 ``response.setContentType("text/html;charset=UTF-8")``。通常情况下，对于 JSP 页面而言其取值均为 ``text/html;charset=UTF-8``。charset 指定但会的页面的字符的编码是什么，通常是 UTF-8。
+
+- **pageEncoding**：指定当前 JSP 页面的字符编码，通常该值和 contentType 中的 charset 一致。
+
+- **isELIgnored**：指定当前 JSP 页面是否可以使用 EL 表达式，通常取值为 true。
+
+
+
+#### include 指令
+
+**静态引入**
+
+include 指令用于通知 JSP 引擎在翻译当前 JSP 页面时将其他文件中的内容合并进当前 JSP 页面转换成的 Servlet 源文件中，这种在源文件级别进行引入的方式称之为**<u>*静态引入*</u>**或**<u>*静态包含*</u>**，当前 JSP 页面于静态引入的页面紧密结合为一个 Servlet。（源文件只有一个）
+
+file 属性的设置值必须使用相对路径，如果使用 / 开头则表示相对于 web 应用的根目录，否则就是相对于该文件的路径。
+
+举例：``<%@include file="b.jsp"%>``
+
+
+
+#### JSP 标签
+
+**jsp:include 动态引入**
+
+并不是像 include 指令生成一个 Servlet 源文件，而是生成两个 Servlet 源文件，然后通过一个方法的方式把目标页面包含进来。（源文件有两个）
+
+举例：``<jsp:include page="b.jsp"></jsp:include>``
+
+> **include指令和 jsp:include 标签对比：**
 >
-> * Servlet 在 Java 代码中通过 HttpServletResponse 对象动态输出 HTML 内容。
-> * JSP 在静态 HTML 内容中嵌入 Java 代码，Java 代码被动态执行后生成 HTML 内容。
-> * jsp 就是在 html 里面写 java 代码，servlet 就是在 java 里面写 html 代码…其实 jsp 经过容器解释之后就是 servlet。
+> - ``<jsp:include> ``是当前 JSP 页面的执行期间插入被引入资源的输出内容，被动态引入的资源必须是一个能独立被 web 容器调用和执行的资源。
+> - ``include指令``只能引入遵循 JSP 格式的文件，被引入的文件于当前文件共同被翻译成一个 Servlet 源文件。
+> - 开发的时候用哪个都可以。
+
+**jsp:forward 转发**
+
+``<jsp:forward page="/include/b.jsp"></jsp:forward>``
+
+相当于：
+
+``<% request.getRequestDispatcher("/include/b.jsp").forward(request,response); %>``
+
+**jsp:param**
+
+使用 jsp:forward 时可以使用 jsp:param 子标签，传入一些参数，jsp:include 同理。
+
+````xml
+<jsp:forward page="/include/b.jsp">
+	<jsp:param value="123456" name="username"/>
+</jsp:forward>
+或者
+<jsp:include page="/include/b.jsp">
+	<jsp:param value="123456" name="username"/>
+</jsp:include>
+在 b.jsp 页面中可以通过 request.getParamter("username") 获取到传入的请求参数。
+````
+
+
+
+### 中文乱码问题
+
+1. 在jsp页面上输入中文，在请求页面不出现乱码：保证 contentType="text/html; charset=UTF-8" 和 pageEncoding="UTF-8" charset 和 pageEncoding 的编码一致，且都支持中文。通常建议取值为 UTF-8。还需保证浏览器的显示字符编码和请求的JSP页面的编码一致即可。
+2. 获取中文参数值：(默认参数在传输过程中使用的编码为 ISO-8859-1)
+   1. 对于 POST 请求：只要获取请求信息之前，调用 ``request.setCharacterEncoding("UTF-8");`` 即可。
+   2. 对于 GET 请求：前面的方式对 GET 无效；可以通过修改 Tomcat 的 server.xml 文件的方式。参照 https://localhost:8989/docs/config/index.html 文档的 useBodyEncodingForURI 属性， 为 Connector 节点添加 useBodyEncodingForURI = "true" 属性即可。
+
+
 
 
 
@@ -449,6 +516,69 @@ JSP 注释可以阻止 java 代码执行，html注释则不行。
      站点的根目录：http://localhost:xxxx/
 
 
+
+## MVC 设计模式
+
+### MVC 概述
+
+![mvc-framework](img/mvc-framework.png)
+MVC （Model-View-Controller）是一种设计模式，它把应用程序分成三个核心模块：模块、视图、控制器，各自处理自己的任务。
+
+**模型（Model）**：
+
+  - 模型是应用程序的主题部分，代表业务数据和业务逻辑。
+  - 一个模型能为多个试图提供数据。
+  - 由于应用于模型的代码只需要写一次就可以被多个视图重用，所以提高了代码的可重用性。
+
+**视图（View）**：
+
+  - 试图是用户看到并与之交互的界面，作用如下：
+    - 试图想用户显示相关的数据。
+    - 接收用户的输入。
+    - 部进行任何实际的业务处理。
+
+ **控制器**：
+
+  - 控制器接收用户的输入并调用模型和试图去完成用户的需求。
+  - 控制器接收请求并决定调用哪个模型组件去处理请求，然后决定调用哪个视图来显示模型处理返回的数据。
+
+ 
+
+### 案例一（查询）
+
+通过网页中的一个超链接打开数据库中的学生列表信息，并返回到浏览器。
+
+![mvc-example1](img/mvc-example1.png)
+
+
+
+### 案例二（删除）
+
+![mvc-example2](img/mvc-example2.png)
+
+
+
+**小结：**
+
+![mvc-conclude1](img/mvc-conclude1.png)
+
+**什么时候转发，什么时候重定向？**
+
+若目标的响应页面不需要从 request 中读取任何值，则可以使用重定向（还可以防止表单的重复提交）。
+
+
+
+### 案例三 （架构分析）
+
+要点分析：
+
+![mvc-example3](img/mvc-example3.png)
+
+
+
+架构分析
+
+![mvc-example4](img/mvc-example4.png)
 
 
 
